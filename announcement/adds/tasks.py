@@ -13,7 +13,7 @@ def notify_author(oid):
     msg = EmailMultiAlternatives(
         subject=post.title,
         body='',
-        from_email='mytestemailDilia@yandex.ru',
+        from_email='testmail@google.com',
         to=[author.email],
     )
     html_content = render_to_string(
@@ -38,7 +38,7 @@ def notify_reply_accepted(oid):
     msg = EmailMultiAlternatives(
         subject=post.title,
         body='',
-        from_email='mytestemailDilia@yandex.ru',
+        from_email='testmail@google.com',
         to=[user.email],
     )
     html_content = render_to_string(
@@ -51,4 +51,3 @@ def notify_reply_accepted(oid):
     )
     msg.attach_alternative(html_content, "text/html")
     msg.send()
-
