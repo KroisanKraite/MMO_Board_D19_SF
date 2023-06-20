@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Объявления{% endblock %}
+
+{% block content %}
+          {% if adds %}
+            {% for add in adds %}
+                <hr>
+                <div class="container bg-light py-3" >
+                        <h4 class="fs-2 fw-bolder"> {{ add.title }} </h4>
+                        <h5 class="fs-6"> Дата публикации: {{ add.date_publication }} </h5>
+                        <p class="fs-2"> {{ add.text|safe }} </p>
+                        <h5 class="fs-6 text-decoration-underline"> {{ add.author.username }}</h5>
+                        {% if add.id|reply_check:request.user.id or add.author == request.user %}
+                        {% else %}
+                            <a class="nav-link active" aria-current="page" href="{{ add.id }}/reply/">Ответить</a>
+                        {% endif %}
+                </div>
+
+            {% endfor %}
+
+            <hr>
+<div class="container py-3" style="background-color:grey;" >
+
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+</div>
+
+          {% else %}
+                <h4 class=" container col-7 fs-2 fw-bolder" > Пока нет объявлений в данной категории </h4>
+          {% endif %}
+
+{% endblock %}

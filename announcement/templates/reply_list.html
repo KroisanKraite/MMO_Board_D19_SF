@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Отклики{% endblock %}
+
+{% block content %}
+<div class="container bg-light py-3" >
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Найти" />
+   </form>
+</div>
+          {% if replies %}
+            {% for reply in replies %}
+                <hr>
+                <div class="container bg-light py-3" >
+                        <h5> Отклик от {{ reply.user }}</h5>
+                        <h4 class="fs-2 fw-bolder"> {{ reply.text }} </h4>
+                        <h5 class="fs-6"> Дата публикации: {{ reply.date_publication }} </h5>
+                        <a href="announcements/reply/{{reply.id}}/delete/">Удалить</a>
+                        {% if not reply.status %}
+                            <a href="announcements/reply/{{reply.id}}/accept/">Принять</a>
+                        {% endif%}
+                </div>
+            {% endfor %}
+            <hr>
+<div class="container py-3" style="background-color:grey;" >
+
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+</div>
+
+          {% else %}
+                <h4 class=" container col-7 fs-2 fw-bolder" > Нет откликов </h4>
+          {% endif %}
+
+{% endblock %}

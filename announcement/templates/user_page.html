@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}Объявления{% endblock %}
+
+{% block content %}
+
+        <div class="container py-3" style="background-color:grey;" >
+            <button onclick="window.location.href = 'announcements/create/';">Создать объявление</button>
+            <button onclick="window.location.href = '{% url 'replies' %}';">Посмотреть отклики</button>
+        </div>
+
+          {% if adds %}
+            {% for add in adds %}
+                <hr>
+                <div class="container bg-light py-3" >
+                        <h4 class="fs-2 fw-bolder"> {{ add.title }} </h4>
+                        <h5 class="fs-6"> Дата публикации: {{ add.date_publication }} </h5>
+                        <h5 class="fs-6"> Категория: {{ add.get_category_display }} </h5>
+                        <p class="fs-2"> {{ add.text|safe }} </p>
+
+                    <a href="announcements/{{ add.id}}/update/">Редактировать</a>
+                    <a href="announcements/{{ add.id}}/delete/">Удалить</a>
+
+                </div>
+            {% endfor %}
+            <hr>
+<div class="container py-3" style="background-color:grey;" >
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+</div>
+
+          {% else %}
+                <h4 class=" container col-7 fs-2 fw-bolder" > Нет активных объявлений </h4>
+          {% endif %}
+
+{% endblock %}

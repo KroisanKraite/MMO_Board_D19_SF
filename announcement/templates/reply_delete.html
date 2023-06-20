@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Удаление отклика{% endblock %}
+
+{% block content %}
+<div class="container bg-light py-3" >
+    <h1>Удаление отклика</h1>
+    <hr>
+    <form action="" method="post">
+        {% csrf_token %}
+        <p>Удаляем отклик от "{{ object.user }}"?</p>
+        <input type="submit" value="Delete" />
+    </form>
+</div>
+{% endblock content %}

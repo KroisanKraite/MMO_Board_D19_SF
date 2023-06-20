@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отклик</title>
+</head>
+<body>
+    <h2>Здравствуй, {{ username }}! </h2>
+    <h3> Пришел отклик на твое объявление! </h3>
+    <h4> {{ title }} </h4>
+    <p> {{ reply.text|truncatewords:20 }} </p>
+    <p> <a href="{{ link }}{% url 'account' %}">Перейти в личный кабинет </a>> </p>>
+
+</body>
+</html>
